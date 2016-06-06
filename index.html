@@ -1,0 +1,62 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Lstm cpd by RobRomijnders</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-light.css">
+    <meta name="viewport" content="width=device-width">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Lstm cpd</h1>
+        <p>LSTM for change point detection</p>
+
+        <p class="view"><a href="https://github.com/RobRomijnders/LSTM_cpd">View the Project on GitHub <small>RobRomijnders/LSTM_cpd</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/RobRomijnders/LSTM_cpd/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/RobRomijnders/LSTM_cpd/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/RobRomijnders/LSTM_cpd">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>
+<a id="lstms-for-change-point-detection" class="anchor" href="#lstms-for-change-point-detection" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>LSTM's for change point detection</h1>
+
+<p>In this post, we revisit LSTM's. LSTM's are a form of RNN's with both a hidden state and a cell state that is recurrent through time. This solves mainly the vanishing gradient problem that original RNN's suffered from. 
+These two posts use LSTM's for basic tasks, like change point detection and integer addition. With these models, we gain intuition for later use in larger environments and complexer datasets.</p>
+
+<h1>
+<a id="data" class="anchor" href="#data" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Data</h1>
+
+<p>The data consists of many signals. In the base class, we have one specific signal. In the other class, we have a change point, where we switch from one signal to another. The task for the LSTM is to detect this change in signal characteristics.</p>
+
+<h1>
+<a id="results" class="anchor" href="#results" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Results</h1>
+
+<p>The LSTM's achieves up to 98% accuracy on the task. With this result, we show that LSTM's are able to model different signal characteristics and detect a change between them</p>
+
+<h1>
+<a id="improvement" class="anchor" href="#improvement" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Improvement</h1>
+
+<p>The LSTM labels the change point as a label over the sequence. We might extand this to using the hidden state at every time sequence to locate the change point. Currently, the final hidden state is mapped to a probability of change-point. We can do this mapping at every time step to locate the change point. In that case, the LSTM has only information on the history. A bi-directional LSTM might fix that particular issue.</p>
+
+<p>As always, I am curious to any comments and questions. Reach me at <a href="mailto:romijndersrob@gmail.com">romijndersrob@gmail.com</a></p>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/RobRomijnders">RobRomijnders</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
