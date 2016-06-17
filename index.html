@@ -32,22 +32,30 @@
 <a id="lstms-for-change-point-detection" class="anchor" href="#lstms-for-change-point-detection" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>LSTM's for change point detection</h1>
 
 <p>In this post, we revisit LSTM's. LSTM's are a form of RNN's with both a hidden state and a cell state that is recurrent through time. This solves mainly the vanishing gradient problem that original RNN's suffered from. 
-These two posts use LSTM's for basic tasks, like change point detection and integer addition. With these models, we gain intuition for later use in larger environments and complexer datasets.</p>
+These two posts use LSTM's for basic tasks, like change point detection and <a href="http://robromijnders.github.io/LSTM_mult/">integer addition</a>. With these models, we gain intuition for later use in larger environments and complexer datasets.</p>
 
 <h1>
-<a id="data" class="anchor" href="#data" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Data</h1>
+<a id="classification-annotation-and-bidirectional" class="anchor" href="#classification-annotation-and-bidirectional" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Classification, annotation and bidirectional</h1>
 
-<p>The data consists of many signals. In the base class, we have one specific signal. In the other class, we have a change point, where we switch from one signal to another. The task for the LSTM is to detect this change in signal characteristics.</p>
+<p>The project consists of three scripts</p>
+
+<ul>
+<li>LSTM for classification. The lstm_cpd_main.py implements a binary classification task. The 0-class is without change point. The 1-class contains a change point. The first implementation classifies between these.</li>
+<li>More interesting is to learn the moment of change point. lstm_cpd_main_ann.py does exactly that.</li>
+<li>Our data is a dummy dataset and relatively easy. More complicated cases require information from past and future. Therefore, lstm_cpd_main_bidirec.py relies on a bidirectional LSTM.</li>
+</ul>
 
 <h1>
-<a id="results" class="anchor" href="#results" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Results</h1>
+<a id="annotation" class="anchor" href="#annotation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Annotation</h1>
 
-<p>The LSTM's achieves up to 98% accuracy on the task. With this result, we show that LSTM's are able to model different signal characteristics and detect a change between them</p>
+<p>In time-series, classification and annotation are problems of different sorts. In classification, there's two labels for a time-series, being the 0-class of 1-class. (or any number of classes). In annotation, we are concerned with the exact location of some event. For our case, we are concerned with the onset of the change.</p>
+
+<p>A probability distribution over the time-series captures the onset of the change point. The LSTM has two heads. The first head outputs a probability for the classification. A real number that is squashed by the sigmoid. The second head outputs a probability of the annotation happening at that location. For a time-series with T time-steps, imagine a probability mass function of T bins, where each bin represents the probability of the annotation. <img src="https://github.com/RobRomijnders/LSTM_cpd/blob/master/example_output.png?raw=true" alt="example"> The green line represents this distribution. The LSTM outputs any real number. A softmax layer transforms this to the distribution and can be trained by cross-entropy.</p>
 
 <h1>
-<a id="improvement" class="anchor" href="#improvement" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Improvement</h1>
+<a id="bidirectional-lstm" class="anchor" href="#bidirectional-lstm" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Bidirectional LSTM</h1>
 
-<p>The LSTM labels the change point as a label over the sequence. We might extand this to using the hidden state at every time sequence to locate the change point. Currently, the final hidden state is mapped to a probability of change-point. We can do this mapping at every time step to locate the change point. In that case, the LSTM has only information on the history. A bi-directional LSTM might fix that particular issue.</p>
+<p>Annotation requires also future information in the case of more complicated task. In NLP, for example, the model requires future words to determine the meaning of the current word. In ECG analysis, the model requires future electrograms to determine the nature of the current wave. Like for forward model is an LSTM with a hidden state, we can also imagine another LSTM running backward through time with hidden states. At one particular moment, the forward hidden state and backward hidden state together capture the meaning of the current time-step. In practise, the output layer uses the concatenated vectors of the forward and backward LSTM.</p>
 
 <p>As always, I am curious to any comments and questions. Reach me at <a href="mailto:romijndersrob@gmail.com">romijndersrob@gmail.com</a></p>
       </section>
